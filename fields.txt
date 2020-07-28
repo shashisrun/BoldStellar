@@ -1,0 +1,47 @@
+menu {
+	title:	 	String,
+	url: 		string,
+	parent : 	int (nullable),
+	status: 	enum <active, inactive>,
+	sortby: 	int
+}
+
+blog {
+	meta_title: 		String (nullable),
+	meta_description: 	String (nullable),
+	meta_image: 		String (nullable),
+	meta_keyword: 		string (nullable),
+	status: 			enum <active, inactive>,
+	title: 				String,
+	content: 			String,
+	slug: 				String,
+	authored_by: 		int
+}
+
+contacts { 
+	name: String,
+	email: Email,
+	phone: String,
+	message: String,
+	message: String (TextArea - nullable)
+}
+
+pages {
+	meta_title: 		String (nullable),
+	meta_description: 	String (nullable),
+	meta_image: 		String (nullable),
+	meta_keyword: 		string (nullable),
+	status: 			enum <active, inactive>,
+	title: 				String,
+	content: 			String,
+	slug: 				String,
+}
+
+slider { 
+	title:	 	String,
+	url: 		string,
+	image: 		String (nullable),
+	sortby: 	int
+	group : 	int (nullable),
+	status: 	enum <active, inactive>,
+}

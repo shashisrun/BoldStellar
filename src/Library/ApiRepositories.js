@@ -14,6 +14,43 @@ class ApiRepositories {
         }
     }
 
+    async CreateMenu(menu){
+        try{
+            const response = await axios.post('/api/menu', menu);
+            return response.data;
+        } catch(error) {
+            console.error('Error', error.response);
+            return false;
+        }
+    }
+
+    async UpdateMenu(id, menu){
+        try{
+            console.clear()
+            console.log("Update : "+ menu)
+            const response = await axios.put('/api/menu/'+ id, menu);
+            console.log(response);
+            return response.data;
+        } catch(error) {
+            console.error('Error', error.response);
+            return false;
+        }
+    }
+
+    async DistroyMenu(menu){
+        try{
+            console.clear()
+            console.log("Delete : "+ menu)
+            const response = await axios.delete('/api/menu/'+ menu);
+            console.log(response);
+            return response.data;
+        } catch(error) {
+            console.error('Error', error.response);
+            return false;
+        }
+    }
+    
+
     async GetBlog(id = ''){
         try{
             const response = await axios.get('/api/blog/'+id);
@@ -45,24 +82,8 @@ class ApiRepositories {
     }
 
     
-    async CreateMenu(blog){
-        try{
-            console.clear()
-            // var data = new FormData();
-            // data.append('title', 'Menu1');
-            // data.append('url', 'localhost');
-            // data.append('status', '1');
-            // data.append('sortby', '1');
-
-            const response = await axios.post('/api/menu', blog);
-            console.log(response);
-            return response.data;
-        } catch(error) {
-            console.error('Error', error.response);
-            return false;
-        }
-    }
-
+    
+    
 
 
 

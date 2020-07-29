@@ -98,4 +98,21 @@ export const menuReducer = (state = initialState, action) => {
 }
 
 
+function MapStateToProps(state) {
+    return{
+        menu: {
+            create: state.create,
+            read: state.read,
+            update: state.update,
+            distroy: state.distroy
+        }
+    }
+}
+
+// function MapDispactchToProps(state) {
+//     return bindActionCreators(menu, dispatch);
+// }
+
+// const user = connect(MapStateToProps, MapDispactchToProps)(Routing);
+
 

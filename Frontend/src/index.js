@@ -13,9 +13,10 @@ class Index extends React.Component {
 		this.state = {
 			header: null,
 			footer: null,
-			body: null,
-
-			slider: null
+			body: {
+				slider : null,
+				list: null
+			},
 		}    		
 	}
 	
@@ -25,32 +26,37 @@ class Index extends React.Component {
 
 	async getRequiredData() {
 		console.clear()
-        const header = await ApiRepository.GetMenu();
-        const footer = await ApiRepository.GetMenu(4);
-		const slider = await ApiRepository.GetSlider();
-		const body = {
-			list : 'list',
-			slider: slider
-		}
+        let header = await ApiRepository.GetMenu();
+        let footer = await ApiRepository.GetMenu(4);
+		let slider = await ApiRepository.GetSlider();
+		let list = ''
+		// let body = [{
+		// 	list : list,
+		// 	slider: slider
+		// }]
+
+		console.log('index.js')
 		console.log('data')
 		console.log(header)
-		console.log(body)
-		console.log('list : '+body.list)
+		// console.log(body)
+		// console.log('list : '+body.list)
 		console.log(footer	)
 		this.setState({
 			header: header, 
-			body: body, 
+			body: {
+				slider: slider,
+				list: list
+			}, 
 			footer: footer,
-			slider: 'slider'
 		})
-		return {header: header, body: body, footer: footer, slider : slider}                              
+		// return {header: header, body: body, footer: footer, slider : slider}                              
 	 }
 	 
 	render(props){
         return(
 			<div>
 				<Header header = {this.state.header} />
-				<Home  body = {this.state.body} slider= {this.state.slider}/>
+				<Home  body = {this.state.body} slider = {this.state.body.slider} list = {this.state.body.list}/>
 				<Footer/>
 			</div>
 		);

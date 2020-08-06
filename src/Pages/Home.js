@@ -10,16 +10,16 @@ export default class Home extends Component{
     }
     
     render(){
-
+        console.log('props')
+        console.log(this.props)
+console.log('body')
 const body = this.props.body
 const slider = this.props.slider
-console.log("Home.js")
-console.log('body')
-console.log(this.props.body)
+console.log(body)
 console.log('list')
-console.log(this.props.list)
+console.log(body[0])
 console.log('slider')
-console.log(this.props.slider)
+console.log(slider)
 // console.log(slider.id)
         return(
             <div>
@@ -29,8 +29,8 @@ console.log(this.props.slider)
             <div id="slider" className="sl-slider-wrapper">
 
             <div className="sl-slider">
-
-            {/* {(() => {
+{/* 
+            {(() => {
                     if(slider){ return Object.keys(slider).map(key => 
                         <div className="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
                         <div className="sl-slide-inner">
@@ -43,29 +43,67 @@ console.log(this.props.slider)
                         </div>
                     ) }
                     })
-            ()}  */}
-            
-            {(() => {
-                    if(slider){ return Object.keys(slider).map(key => 
-                        <div className="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
-                             <div className="sl-slide-inner">
-                                <div className="bg-img" style={{ backgroundImage: 'url(assets/images/slider/'+slider[key].image+')'}}></div>
-                                <h2><a href={slider[key].url}>{slider[key].title}</a></h2>
-                                    { slider[key].text_on_slider.indexOf('</') !== -1
-                                        ? (
-                                            <blockquote dangerouslySetInnerHTML={{__html: slider[key].text_on_slider.replace(/(<? *script)/gi, 'illegalscript')}} >
-                                            </blockquote>
-                                        )
-                                        : <blockquote>{slider[key].text_on_slider}</blockquote>
-                                    }           
-                                
-                            </div>
-                        </div>
-                    ) }
-                    })
-            ()} 
-            
+            ()} */
+            }
+            <div className="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
+            <div className="sl-slide-inner">
+            <div className="bg-img bg-img-1"></div>
+            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
+            <blockquote>              
+            <p className="location"><span className="glyphicon glyphicon-map-marker"></span> 1890 Syndey, Australia</p>
+            <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.</p>
+            <cite>$ 20,000,000</cite>
+            </blockquote>
+            </div>
+            </div>
 
+            <div className="sl-slide" data-orientation="vertical" data-slice1-rotation="10" data-slice2-rotation="-15" data-slice1-scale="1.5" data-slice2-scale="1.5">
+            <div className="sl-slide-inner">
+            <div className="bg-img bg-img-2"></div>
+            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
+            <blockquote>              
+            <p className="location"><span className="glyphicon glyphicon-map-marker"></span> 1890 Syndey, Australia</p>
+            <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.</p>
+            <cite>$ 20,000,000</cite>
+            </blockquote>
+            </div>
+            </div>
+
+            <div className="sl-slide" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
+            <div className="sl-slide-inner">
+            <div className="bg-img bg-img-3"></div>
+            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
+            <blockquote>              
+            <p className="location"><span className="glyphicon glyphicon-map-marker"></span> 1890 Syndey, Australia</p>
+            <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.</p>
+            <cite>$ 20,000,000</cite>
+            </blockquote>
+            </div>
+            </div>
+
+            <div className="sl-slide" data-orientation="vertical" data-slice1-rotation="-5" data-slice2-rotation="25" data-slice1-scale="2" data-slice2-scale="1">
+            <div className="sl-slide-inner">
+            <div className="bg-img bg-img-4"></div>
+            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
+            <blockquote>              
+            <p className="location"><span className="glyphicon glyphicon-map-marker"></span> 1890 Syndey, Australia</p>
+            <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.</p>
+            <cite>$ 20,000,000</cite>
+            </blockquote>
+            </div>
+            </div>
+
+            <div className="sl-slide" data-orientation="horizontal" data-slice1-rotation="-5" data-slice2-rotation="10" data-slice1-scale="2" data-slice2-scale="1">
+            <div className="sl-slide-inner">
+            <div className="bg-img bg-img-5"></div>
+            <h2><a href="#">2 Bed Rooms and 1 Dinning Room Aparment on Sale</a></h2>
+            <blockquote>              
+            <p className="location"><span className="glyphicon glyphicon-map-marker"></span> 1890 Syndey, Australia</p>
+            <p>Until he extends the circle of his compassion to all living things, man will not himself find peace.</p>
+            <cite>$ 20,000,000</cite>
+            </blockquote>
+            </div>
+            </div>
             </div>
             {/* <!-- /sl-slider --> */}
 

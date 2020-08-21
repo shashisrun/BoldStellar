@@ -33,12 +33,7 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        
-        if (! $request->title or ! $request->slug or ! $request->status ) 
-            return $this->response->BadRequest('missing parameter');
-        
         $this->page->create($request->all());
-
         return $this->response->Created();
        
     }
@@ -52,6 +47,10 @@ class PageController extends Controller
     public function show($id)
     {
         $collection = $this->page->find($id);
+        if(empty($collection)){
+            $title = str_replace("-", " ", $id);
+            $collection = $this->page->where('title', $title);
+        }
         return (!empty($collection))? $this->response->Success($collection) : $this->response->BadRequest();
     }
 

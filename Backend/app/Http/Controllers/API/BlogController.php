@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
@@ -7,8 +6,6 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-
-
     function __construct( \App\Blog $blog, \App\Library\Responses $response){
         $this->blog = $blog;
         $this->response = $response;
@@ -31,15 +28,9 @@ class BlogController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        
-        if (! $request->title or ! $request->url or ! $request->status or ! $request->sortby) 
-            return $this->response->BadRequest('missing parameter');
-        
-        $this->blog->create($request->all());
-
-        return $this->response->Created();
-       
+    {        
+        $response = $this->blog->create($request->all());
+        return ($response)? $this->response->Created('Blog Created Successfully') : $this->response->BadRequest();
     }
 
     /**
@@ -67,7 +58,7 @@ class BlogController extends Controller
         if($blog->update($request->all())){
             return $this->response->Success('updated Successfully');
         }else{
-            return $this->response->BadRequest("can't create blog, please try again later");
+            return $this->response->BadRequest("can't update blog, please try again later");
         }
     }
 

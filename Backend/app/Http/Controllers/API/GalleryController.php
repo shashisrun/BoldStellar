@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\API\PropertyManagement;
+namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class PropertyProjectController extends Controller
+class GalleryController extends Controller
 {
     function __construct(
-        \App\Model\PropertyManagement\Project $project,
+        \App\Gallery $gallery,
         \App\Library\Responses $response
     ){
-        $this->project = $project;
+        $this->gallery = $gallery;
         $this->response = $response;
     }
    
@@ -22,7 +22,7 @@ class PropertyProjectController extends Controller
      */
     public function index()
     {
-        return $collection = $this->project->all()->toArray();  
+        return $collection = $this->gallery->all()->toArray();  
     }
 
     /**
@@ -33,8 +33,12 @@ class PropertyProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $this->project->create($request->all());
+        // if (! $request->image) 
+        //     return $this->response->BadRequest('missing parameter');
+        dd($request->fileMeta);
+        $this->gallery->create($request->all());
         return $this->response->Created();
+       
     }
 
     /**
@@ -45,7 +49,7 @@ class PropertyProjectController extends Controller
      */
     public function show($id)
     {
-        $collection = $this->project->find($id);
+        $collection = $this->gallery->find($id);
         return (!empty($collection))? $this->response->Success($collection) : $this->response->notFound();
     }
 
@@ -58,11 +62,11 @@ class PropertyProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $project = $this->project->find($id);
-        if($project->update($request->all())){
+        $gallery = $this->gallery->find($id);
+        if($gallery->update($request->all())){
             return $this->response->Success('updated Successfully');
         }else{
-            return $this->response->BadRequest("can't create project, please try again later");
+            return $this->response->BadRequest("can't create gallery, please try again later");
         }
     }
 
@@ -74,10 +78,11 @@ class PropertyProjectController extends Controller
      */
     public function destroy($id)
     {
-        if($this->project->destroy($id)){
+        if($this->gallery->destroy($id)){
             return $this->response->Success('deleted Successfully');
         }else{
-            return $this->response->BadRequest("can't delete project, please try again later");
+            return $this->response->BadRequest("can't delete gallery, please try again later");
         }
     }
+
 }

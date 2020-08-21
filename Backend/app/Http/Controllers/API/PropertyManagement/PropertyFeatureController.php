@@ -31,15 +31,15 @@ class PropertyFeatureController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        // if (! $request->title or ! $request->url or ! $request->status or ! $request->sortby) 
-        //     return $this->response->BadRequest('missing parameter');
-        
-        $this->feature->create($request->all());
+    public function store(\App\Http\Requests\Property\FeatureStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->feature->create($request->all());
+        if(!$response){
+            return $this->response->BadRequest();
+        }
 
-        return $this->response->Created();
-       
+        return $this->response->Created('Feature created successfully');
     }
 
     /**
@@ -51,7 +51,7 @@ class PropertyFeatureController extends Controller
     public function show($id)
     {
         $collection = $this->feature->find($id);
-        return (!empty($collection))? $this->response->Success($collection) : $this->response->notFound();
+        return (!empty($collection))? $this->response->Success($collection):$this->response->notFound();
     }
 
     /**
@@ -61,13 +61,20 @@ class PropertyFeatureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\Property\FeatureUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $feature = $this->feature->find($id);
-        if($feature->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create feature, please try again later");
+        if(empty($feature)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $feature->update($request->all());
+            return $this->response->Success('Feature updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't create feature, please try again later");
         }
     }
 
@@ -80,7 +87,7 @@ class PropertyFeatureController extends Controller
     public function destroy($id)
     {
         if($this->feature->destroy($id)){
-            return $this->response->Success('deleted Successfully');
+            return $this->response->Success('Feature deleted Successfully');
         }else{
             return $this->response->BadRequest("can't delete feature, please try again later");
         }

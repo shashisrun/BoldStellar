@@ -33,13 +33,8 @@ class PropertyTypeController extends Controller
      */
     public function store(Request $request)
     {
-        // if (! $request->title or ! $request->url or ! $request->status or ! $request->sortby) 
-        //     return $this->response->BadRequest('missing parameter');
-        
         $this->property_type->create($request->all());
-
         return $this->response->Created();
-       
     }
 
     /**

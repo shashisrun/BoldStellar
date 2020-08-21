@@ -23,7 +23,7 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        //  
+        return $collection = $this->property->all()->toArray();  
     }
 
     /**
@@ -34,11 +34,7 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        // if (! $request->title or ! $request->url or ! $request->status or ! $request->sortby) 
-        //     return $this->response->BadRequest('missing parameter');
-        
         $this->property->create($request->all());
-
         return $this->response->Created();
     }
 
@@ -50,7 +46,7 @@ class PropertyController extends Controller
      */
     public function show($id)
     {
-        $collection = $this->amenity->find($id);
+        $collection = $this->property->find($id);
         return (!empty($collection))? $this->response->Success($collection) : $this->response->notFound();
         // dd($id);
         // $collection = new \StdClass();
@@ -74,7 +70,7 @@ class PropertyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return 'update';
     }
 
     /**
@@ -85,6 +81,10 @@ class PropertyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if($this->property->destroy($id)){
+            return $this->response->Success('deleted Successfully');
+        }else{
+            return $this->response->BadRequest("can't delete property, please try again later");
+        }
     }
 }

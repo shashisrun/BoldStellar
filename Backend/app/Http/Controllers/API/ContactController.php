@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    
-
     function __construct( \App\Contact $contact, \App\Library\Responses $response){
         $this->contact = $contact;
         $this->response = $response;
@@ -32,14 +30,8 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        
-        if (! $request->title or ! $request->url or ! $request->status or ! $request->sortby) 
-            return $this->respondBadRequest('missing parameter');
-        
         $this->contact->create($request->all());
-
         return $this->response->Created();
-       
     }
 
     /**

@@ -6,12 +6,22 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Admin' => $baseDir . '/app/Admin.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Gallery' => $baseDir . '/app/Gallery.php',
     'App\\Http\\Controllers\\API\\BlogController' => $baseDir . '/app/Http/Controllers/API/BlogController.php',
     'App\\Http\\Controllers\\API\\ContactController' => $baseDir . '/app/Http/Controllers/API/ContactController.php',
+    'App\\Http\\Controllers\\API\\GalleryController' => $baseDir . '/app/Http/Controllers/API/GalleryController.php',
     'App\\Http\\Controllers\\API\\MenuController' => $baseDir . '/app/Http/Controllers/API/MenuController.php',
     'App\\Http\\Controllers\\API\\PageController' => $baseDir . '/app/Http/Controllers/API/PageController.php',
+    'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyAmenityController' => $baseDir . '/app/Http/Controllers/API/PropertyManagement/PropertyAmenityController.php',
+    'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyController' => $baseDir . '/app/Http/Controllers/API/PropertyManagement/PropertyController.php',
+    'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyFeatureController' => $baseDir . '/app/Http/Controllers/API/PropertyManagement/PropertyFeatureController.php',
+    'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyForController' => $baseDir . '/app/Http/Controllers/API/PropertyManagement/PropertyForController.php',
+    'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyGalleryController' => $baseDir . '/app/Http/Controllers/API/PropertyManagement/PropertyGalleryController.php',
+    'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyProjectController' => $baseDir . '/app/Http/Controllers/API/PropertyManagement/PropertyProjectController.php',
+    'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyTypeController' => $baseDir . '/app/Http/Controllers/API/PropertyManagement/PropertyTypeController.php',
     'App\\Http\\Controllers\\API\\SliderController' => $baseDir . '/app/Http/Controllers/API/SliderController.php',
     'App\\Http\\Controllers\\API\\UserController' => $baseDir . '/app/Http/Controllers/API/UserController.php',
     'App\\Http\\Controllers\\App\\Library\\RolePermission' => $baseDir . '/app/Http/Controllers/App/Library/RolePermission.php',

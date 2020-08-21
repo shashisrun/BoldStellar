@@ -10,18 +10,11 @@ use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
-    
-
     function __construct( \App\User $user, \App\Library\Responses $response){
         $this->user = $user;
         $this->response = $response;
 
     }
-
-
-
-
-    
    
     /**
      * Display a listing of the resource.
@@ -42,15 +35,12 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         $validator = $request->validated();
-        
-        
         if($this->user->create($request->all())){
             return $this->response->Created();
         }
         else{
             return $this->response->BadRequest(); 
         }
-       
     }
 
     /**
@@ -92,5 +82,4 @@ class UserController extends Controller
     {
         $this->user->destroy($id);
     }
-
 }

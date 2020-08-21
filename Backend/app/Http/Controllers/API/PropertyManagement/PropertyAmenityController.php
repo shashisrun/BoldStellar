@@ -31,15 +31,15 @@ class PropertyAmenityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        // if (! $request->title or ! $request->url or ! $request->status or ! $request->sortby) 
-        //     return $this->response->BadRequest('missing parameter');
-        
-        $this->amenity->create($request->all());
+    public function store(\App\Http\Requests\Property\AmenityStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->amenity->create($request->all());
+        if(!$response){
+            return $this->response->BadRequest();
+        }
 
-        return $this->response->Created();
-       
+        return $this->response->Created('Amenity created successfully');
     }
 
     /**
@@ -50,9 +50,8 @@ class PropertyAmenityController extends Controller
      */
     public function show($id)
     {
-        dd($id);
         $collection = $this->amenity->find($id);
-        return (!empty($collection))? $this->response->Success($collection) : $this->response->notFound();
+        return (!empty($collection))? $this->response->Success($collection):$this->response->notFound();
     }
 
     /**
@@ -62,13 +61,20 @@ class PropertyAmenityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\Property\AmenityUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $amenity = $this->amenity->find($id);
-        if($amenity->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create amenity, please try again later");
+        if(empty($amenity)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $amenity->update($request->all());
+            return $this->response->Success('Amenity updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't create amenity, please try again later");
         }
     }
 
@@ -81,7 +87,7 @@ class PropertyAmenityController extends Controller
     public function destroy($id)
     {
         if($this->amenity->destroy($id)){
-            return $this->response->Success('deleted Successfully');
+            return $this->response->Success('Amenity deleted successfully');
         }else{
             return $this->response->BadRequest("can't delete amenity, please try again later");
         }

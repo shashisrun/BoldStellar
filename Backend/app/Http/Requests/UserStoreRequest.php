@@ -25,6 +25,11 @@ class UserStoreRequest extends FormRequest
         return true;
     }
 
+    protected function failedAuthorization()
+    {
+        throw new AuthorizationException('Your new message goes here.');
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

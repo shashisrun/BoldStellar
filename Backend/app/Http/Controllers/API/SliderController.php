@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 
 class SliderController extends Controller
 {
-    
-
     function __construct( \App\Slider $slider, \App\Library\Responses $response){
         $this->slider = $slider;
         $this->response = $response;
@@ -32,14 +30,8 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
-        
-        if (! $request->title or ! $request->url or ! $request->status or ! $request->sortby) 
-            return $this->response->BadRequest('missing parameter');
-        
         $this->slider->create($request->all());
-
         return $this->response->Created();
-       
     }
 
     /**
@@ -81,5 +73,4 @@ class SliderController extends Controller
     {
         $this->slider->destroy($id);
     }
-
 }

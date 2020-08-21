@@ -31,15 +31,15 @@ class PropertyGalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        // if (! $request->title or ! $request->url or ! $request->status or ! $request->sortby) 
-        //     return $this->response->BadRequest('missing parameter');
-        
-        $this->gallery->create($request->all());
+    public function store(\App\Http\Requests\Property\GalleryStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->gallery->create($request->all());
+        if(!$response){
+            return $this->response->BadRequest();
+        }
 
-        return $this->response->Created();
-       
+        return $this->response->Created('Gallery created successfully');
     }
 
     /**
@@ -61,13 +61,20 @@ class PropertyGalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\Property\GalleryUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $gallery = $this->gallery->find($id);
-        if($gallery->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create gallery, please try again later");
+        if(empty($gallery)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $gallery->update($request->all());
+            return $this->response->Success('Gallery updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't create gallery, please try again later");
         }
     }
 

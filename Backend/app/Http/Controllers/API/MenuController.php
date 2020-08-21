@@ -38,7 +38,6 @@ class MenuController extends Controller
             return $this->response->BadRequest('missing parameter');
         
         $this->menu->create($request->all());
-
         return $this->response->Created();
        
     }

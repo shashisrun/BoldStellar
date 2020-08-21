@@ -579,12 +579,22 @@ class ComposerStaticInitaf1fedf3c819e62db4198bb34a1267f8
     );
 
     public static $classMap = array (
+        'App\\Admin' => __DIR__ . '/../..' . '/app/Admin.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Gallery' => __DIR__ . '/../..' . '/app/Gallery.php',
         'App\\Http\\Controllers\\API\\BlogController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/BlogController.php',
         'App\\Http\\Controllers\\API\\ContactController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/ContactController.php',
+        'App\\Http\\Controllers\\API\\GalleryController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/GalleryController.php',
         'App\\Http\\Controllers\\API\\MenuController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/MenuController.php',
         'App\\Http\\Controllers\\API\\PageController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PageController.php',
+        'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyAmenityController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PropertyManagement/PropertyAmenityController.php',
+        'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PropertyManagement/PropertyController.php',
+        'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyFeatureController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PropertyManagement/PropertyFeatureController.php',
+        'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyForController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PropertyManagement/PropertyForController.php',
+        'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyGalleryController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PropertyManagement/PropertyGalleryController.php',
+        'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyProjectController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PropertyManagement/PropertyProjectController.php',
+        'App\\Http\\Controllers\\API\\PropertyManagement\\PropertyTypeController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/PropertyManagement/PropertyTypeController.php',
         'App\\Http\\Controllers\\API\\SliderController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/SliderController.php',
         'App\\Http\\Controllers\\API\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/UserController.php',
         'App\\Http\\Controllers\\App\\Library\\RolePermission' => __DIR__ . '/../..' . '/app/Http/Controllers/App/Library/RolePermission.php',

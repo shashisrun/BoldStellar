@@ -25,34 +25,24 @@ Route::group(['middleware' => ['cors']], function () {
 		'user' => 'API\UserController',
 		'role' => 'Spatie\RoleController',
 		'permission' => 'Spatie\PermissionController',		
+		'gallery' => 'API\GalleryController',		
 	]);
 
 	// Property Management
 	Route::group(['namespace' => 'API\PropertyManagement', 'prefix' => 'propertymanagement'], function(){ 
 		Route::apiResources([		
-			'property' => 'PropertyController',
 			'amenity' => 'PropertyAmenityController',
+			'property' => 'PropertyController',
 			'feature' => 'PropertyFeatureController',
 			'gallery' => 'PropertyGalleryController',
 			'project' => 'PropertyProjectController',
 			'property_for' => 'PropertyForController',
 			'property_type' => 'PropertyTypeController',
 		]);
-	});
-	
-	// Route::namespace('API\PropertyManagement')->apiResources([		
-
-	// 	// Property Management
-	// 	'property' => 'PropertyController',
-	// 	'amenity' => 'PropertyAmenityController',
-	// 	'features' => 'PropertyFeatureController',
-	// 	'gallery' => 'PropertyGalleryController',
-	// 	'project' => 'PropertyProjectController',
-	// 	'property_for' => 'PropertyForController',
-	// 	'property_type' => 'PropertyTypeController',
-	// ]);
-	
+	});	
 });
+
+Route::resource('admins', 'Auth\AdminController')->middleware('auth:admin');	
 
 // Route::group(['prefix' => 'Role'], function(){
 // 	Role::get('/', 'Spatie\RoleController@create');

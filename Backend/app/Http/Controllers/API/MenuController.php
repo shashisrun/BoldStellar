@@ -32,14 +32,13 @@ class MenuController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        if (! $request->title or ! $request->url or ! $request->status or ! $request->sortby) 
-            return $this->response->BadRequest('missing parameter');
-        
-        $this->menu->create($request->all());
-        return $this->response->Created();
-       
+    public function store(\App\Http\Requests\MenuStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->menu->create($request->all());
+        return ($response)? 
+                    $this->response->Created('Menu Created Successfully') 
+                    : $this->response->BadRequest();
     }
 
     /**
@@ -61,13 +60,20 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\MenuUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $menu = $this->menu->find($id);
-        if($menu->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create menu, please try again later");
+        if(empty($menu)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $menu->update($request->all());
+            return $this->response->Success('Menu updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't update menu, please try again later");
         }
     }
 

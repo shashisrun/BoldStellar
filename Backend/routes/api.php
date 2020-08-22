@@ -37,7 +37,7 @@ Route::group(['middleware' => ['cors']], function () {
 			'gallery' => 'PropertyGalleryController',
 			'project' => 'PropertyProjectController',
 			'property_for' => 'PropertyForController',
-			'property_type' => 'PropertyTypeController',
+			'property_type' => 'PropertyTypeController'
 		]);
 	});	
 });

@@ -31,11 +31,13 @@ class PageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $this->page->create($request->all());
-        return $this->response->Created();
-       
+    public function store(\App\Http\Requests\PageStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->page->create($request->all());
+        return ($response)? 
+                    $this->response->Created('Page Created Successfully') 
+                    : $this->response->BadRequest();
     }
 
     /**
@@ -61,13 +63,20 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\PageUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $page = $this->page->find($id);
-        if($page->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest();
+        if(empty($page)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $page->update($request->all());
+            return $this->response->Success('Page updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't update page, please try again later");
         }
     }
 

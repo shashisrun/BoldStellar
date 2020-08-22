@@ -46,17 +46,17 @@ class PropertyController extends Controller
      */
     public function show($id)
     {
-        $collection = $this->property->find($id);
-        return (!empty($collection))? $this->response->Success($collection) : $this->response->notFound();
-        // dd($id);
-        // $collection = new \StdClass();
+        $collection = new \StdClass();
+        $collection->property = $this->property->find($id);
+    //return (!empty($collection))?$this->response->Success($collection):$this->response->notFound();
         // $collection = $this->property->find($id);
-        // if($collection->property == '')
-        //     return $this->response->notFound();
+        if($collection->property == '')
+            return $this->response->notFound();
 
-        // foreach($collection->property as $property){
-        //     dd($collection->property);
-        // }
+        foreach($collection->property->toArray() as $property){
+            var_dump($property);
+        }
+        dd($collection);
 
         // return (!empty($collection))? $this->response->Success($collection) : '';
     }

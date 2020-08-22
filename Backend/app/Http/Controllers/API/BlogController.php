@@ -27,10 +27,13 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {        
+    public function store(\App\Http\Requests\BlogStoreRequest $request)
+    {       
+        $validator = $request->validated();
         $response = $this->blog->create($request->all());
-        return ($response)? $this->response->Created('Blog Created Successfully') : $this->response->BadRequest();
+        return ($response)? 
+                    $this->response->Created('Blog Created Successfully') 
+                    : $this->response->BadRequest();
     }
 
     /**
@@ -52,13 +55,20 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\BlogUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $blog = $this->blog->find($id);
-        if($blog->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't update blog, please try again later");
+        if(empty($blog)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $blog->update($request->all());
+            return $this->response->Success('Blog updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't update blog, please try again later");
         }
     }
 
@@ -70,7 +80,10 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        $this->blog->destroy($id);
-    }
+        if($this->blog->destroy($id)){
+            return $this->response->Success('Blog deleted Successfully');
+        }else{
+            return $this->response->BadRequest("can't delete blog, please try again later");
+        }    }
 
 }

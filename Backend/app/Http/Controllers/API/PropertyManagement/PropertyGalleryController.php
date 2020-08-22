@@ -39,7 +39,7 @@ class PropertyGalleryController extends Controller
             return $this->response->BadRequest();
         }
 
-        return $this->response->Created('Gallery created successfully');
+        return $this->response->Created('Media created successfully');
     }
 
     /**
@@ -71,10 +71,10 @@ class PropertyGalleryController extends Controller
 
         try {
             $gallery->update($request->all());
-            return $this->response->Success('Gallery updated successfully');
+            return $this->response->Success('Media updated successfully');
         } catch (Exception $e) {
            // return $e->getMessage();  
-           return $this->response->BadRequest("can't create gallery, please try again later");
+           return $this->response->BadRequest("can't create media, please try again later");
         }
     }
 
@@ -89,7 +89,7 @@ class PropertyGalleryController extends Controller
         if($this->gallery->destroy($id)){
             return $this->response->Success('deleted Successfully');
         }else{
-            return $this->response->BadRequest("can't delete gallery, please try again later");
+            return $this->response->BadRequest("can't delete media, please try again later");
         }
     }
 }

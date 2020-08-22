@@ -28,10 +28,13 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $this->contact->create($request->all());
-        return $this->response->Created();
+    public function store(\App\Http\Requests\ContactStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->contact->create($request->all());
+        return ($response)? 
+                    $this->response->Created('Contact Created Successfully') 
+                    : $this->response->BadRequest();
     }
 
     /**
@@ -53,13 +56,20 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\ContactUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $contact = $this->contact->find($id);
-        if($contact->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create contact, please try again later");
+        if(empty($contact)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $contact->update($request->all());
+            return $this->response->Success('Contact updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't update contact, please try again later");
         }
     }
 

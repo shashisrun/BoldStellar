@@ -31,14 +31,13 @@ class GalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        // if (! $request->image) 
-        //     return $this->response->BadRequest('missing parameter');
-        dd($request->fileMeta);
-        $this->gallery->create($request->all());
-        return $this->response->Created();
-       
+    public function store(\App\Http\Requests\GalleryStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->gallery->create($request->all());
+        return ($response)? 
+                    $this->response->Created('Gallery Created Successfully') 
+                    : $this->response->BadRequest();
     }
 
     /**
@@ -60,13 +59,21 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    
+    public function update(\App\Http\Requests\GalleryUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $gallery = $this->gallery->find($id);
-        if($gallery->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create gallery, please try again later");
+        if(empty($gallery)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $gallery->update($request->all());
+            return $this->response->Success('Gallery updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't update gallery, please try again later");
         }
     }
 

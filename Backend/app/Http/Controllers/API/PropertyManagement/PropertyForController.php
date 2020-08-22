@@ -31,10 +31,15 @@ class PropertyForController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $this->property_for->create($request->all());
-        return $this->response->Created();
+    public function store(\App\Http\Requests\Property\PropertyforStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->property_for->create($request->all());
+        if(!$response){
+            return $this->response->BadRequest();
+        }
+
+        return $this->response->Created('Propertyfor created successfully');
     }
 
     /**
@@ -46,7 +51,7 @@ class PropertyForController extends Controller
     public function show($id)
     {
         $collection = $this->property_for->find($id);
-        return (!empty($collection))? $this->response->Success($collection) : $this->response->notFound();
+        return (!empty($collection))? $this->response->Success($collection):$this->response->notFound();
     }
 
     /**
@@ -56,13 +61,20 @@ class PropertyForController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\Property\PropertyforUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $property_for = $this->property_for->find($id);
-        if($property_for->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create property_for, please try again later");
+        if(empty($property_for)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $property_for->update($request->all());
+            return $this->response->Success('Propertyfor updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't create Propertyfor, please try again later");
         }
     }
 
@@ -77,7 +89,7 @@ class PropertyForController extends Controller
         if($this->property_for->destroy($id)){
             return $this->response->Success('deleted Successfully');
         }else{
-            return $this->response->BadRequest("can't delete property_for, please try again later");
+            return $this->response->BadRequest("can't delete Propertyfor, please try again later");
         }
     }
 }

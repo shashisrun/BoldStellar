@@ -31,10 +31,15 @@ class PropertyTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $this->property_type->create($request->all());
-        return $this->response->Created();
+    public function store(\App\Http\Requests\Property\PropertyTypeStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->property_type->create($request->all());
+        if(!$response){
+            return $this->response->BadRequest();
+        }
+
+        return $this->response->Created('PropertyType created successfully');
     }
 
     /**
@@ -56,13 +61,20 @@ class PropertyTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\Property\PropertyTypeUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $property_type = $this->property_type->find($id);
-        if($property_type->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create property_type, please try again later");
+        if(empty($property_type)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $property_type->update($request->all());
+            return $this->response->Success('PropertyType updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't create media, please try again later");
         }
     }
 

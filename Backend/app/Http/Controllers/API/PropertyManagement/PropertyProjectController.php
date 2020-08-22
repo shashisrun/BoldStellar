@@ -22,7 +22,7 @@ class PropertyProjectController extends Controller
      */
     public function index()
     {
-        return $collection = $this->project->all()->toArray();  
+        return $collection = $this->project->all()->toArray();                 
     }
 
     /**
@@ -31,11 +31,16 @@ class PropertyProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $this->project->create($request->all());
-        return $this->response->Created();
-    }
+    public function store(\App\Http\Requests\Property\ProjectStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->project->create($request->all());
+        if(!$response){
+            return $this->response->BadRequest();
+        }
+
+        return $this->response->Created('Project created successfully');
+    }      
 
     /**
      * Display the specified resource.
@@ -56,13 +61,20 @@ class PropertyProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\Property\ProjectUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $project = $this->project->find($id);
-        if($project->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create project, please try again later");
+        if(empty($project)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $project->update($request->all());
+            return $this->response->Success('Project updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't create project, please try again later");
         }
     }
 

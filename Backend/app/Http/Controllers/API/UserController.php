@@ -32,15 +32,13 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserStoreRequest $request)
-    {
+    public function store(\App\Http\Requests\UserStoreRequest $request)
+    {       
         $validator = $request->validated();
-        if($this->user->create($request->all())){
-            return $this->response->Created();
-        }
-        else{
-            return $this->response->BadRequest(); 
-        }
+        $response = $this->user->create($request->all());
+        return ($response)? 
+                    $this->response->Created('User Created Successfully') 
+                    : $this->response->BadRequest();
     }
 
     /**
@@ -62,13 +60,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\UserUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $user = $this->user->find($id);
-        if($user->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't update user, please try again later");
+        if(empty($user)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $user->update($request->all());
+            return $this->response->Success('User updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't update user, please try again later");
         }
     }
 

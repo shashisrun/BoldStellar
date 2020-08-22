@@ -28,10 +28,13 @@ class SliderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $this->slider->create($request->all());
-        return $this->response->Created();
+    public function store(\App\Http\Requests\SliderStoreRequest $request)
+    {       
+        $validator = $request->validated();
+        $response = $this->slider->create($request->all());
+        return ($response)? 
+                    $this->response->Created('Slider Created Successfully') 
+                    : $this->response->BadRequest();
     }
 
     /**
@@ -53,13 +56,20 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\SliderUpdateRequest $request, $id)
     {
+        $validator = $request->validated();
         $slider = $this->slider->find($id);
-        if($slider->update($request->all())){
-            return $this->response->Success('updated Successfully');
-        }else{
-            return $this->response->BadRequest("can't create slider, please try again later");
+        if(empty($slider)){
+            return $this->response->notFound(); 
+        }   
+
+        try {
+            $slider->update($request->all());
+            return $this->response->Success('Slider updated successfully');
+        } catch (Exception $e) {
+           // return $e->getMessage();  
+           return $this->response->BadRequest("can't update slider, please try again later");
         }
     }
 
